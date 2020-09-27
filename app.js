@@ -9,9 +9,83 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
+const { choices } = require("yargs");
 
 
 // Write code to use inquirer to gather information about the development team members,
+const managerQuestions = [
+    {
+        type: 'input', 
+        name: 'managerID',
+        message: 'What is your manager`s id?'
+    },
+    {
+        type: 'input', 
+        name: 'managerEmail',
+        message: 'What is your manager`s email?'
+    },
+    {
+        type: 'input', 
+        name: 'managerNumber',
+        message: 'What is your manager`s office number?'
+    },
+    {
+        type: 'list', 
+        name: 'teamMember',
+        message: 'What type of team member would you like to add?',
+        choices: ['Engineer', 'Intern', 'None']
+    }
+]
+
+const engineerQuestions = [
+    {
+        type: 'input', 
+        name: 'engineerID',
+        message: 'What is your engineer`s id?'
+    },
+    {
+        type: 'input', 
+        name: 'engineerEmail',
+        message: 'What is your engineer`s email?'
+    },
+    {
+        type: 'input', 
+        name: 'engineerGithub',
+        message: 'What is your engineer`s github profile?'
+    },
+    {
+        type: 'list', 
+        name: 'teamMember',
+        message: 'What type of team member would you like to add?',
+        choices: ['Engineer', 'Intern', 'None']
+    }
+]
+
+const internQuestions = [
+    {
+        type: 'input', 
+        name: 'internID',
+        message: 'What is your intern`s id?'
+    },
+    {
+        type: 'input', 
+        name: 'internEmail',
+        message: 'What is your intern`s email?'
+    },
+    {
+        type: 'input', 
+        name: 'internSchool',
+        message: 'What is your intern`s school?'
+    },
+    {
+        type: 'list', 
+        name: 'teamMember',
+        message: 'What type of team member would you like to add?',
+        choices: ['Engineer', 'Intern', 'None']
+    }
+]
+
+
 // and to create objects for each team member (using the correct classes as blueprints!)
 
 // After the user has input all employees desired, call the `render` function (required
