@@ -51,7 +51,7 @@ const engineerQuestions = [
     {
         type: 'input', 
         name: 'engineerGithub',
-        message: 'What is your engineer`s github profile?'
+        message: 'What is your engineer`s github username?'
     },
     {
         type: 'list', 
