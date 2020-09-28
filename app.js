@@ -64,13 +64,7 @@ const engineerQuestions = [
         type: 'input',
         name: 'engineerGithub',
         message: 'What is your engineer`s github username?'
-    },
-    // {
-    //     type: 'list', 
-    //     name: 'role',
-    //     message: 'What type of team member would you like to add?',
-    //     choices: ['Engineer', 'Intern', 'None']
-    // }
+    }
 ];
 
 const internQuestions = [
@@ -93,13 +87,7 @@ const internQuestions = [
         type: 'input',
         name: 'internSchool',
         message: 'What is your intern`s school?'
-    },
-    // {
-    //     type: 'list', 
-    //     name: 'role',
-    //     message: 'What type of team member would you like to add?',
-    //     choices: ['Engineer', 'Intern', 'None']
-    // }
+    }
 ];
 
 const memberTypeQ = [
@@ -118,12 +106,13 @@ function memberType() {
                 inquirer.prompt(engineerQuestions)
                     .then(engineerAnswers => {
                         const engineerData = new Engineer(
-                            engineerAnswers.engineerName,
-                            engineerAnswers.engineerID,
-                            engineerAnswers.engineerEmail,
-                            engineerAnswers.engineerGithub,
-                            engineerAnswers.role
+                            this.engineerName,
+                            this.engineerID,
+                            this.engineerEmail,
+                            this.engineerGithub,
+                            this.role
                         );
+                        //render(engineerData);
                         memberType();
                     });
                 break;
@@ -131,15 +120,16 @@ function memberType() {
                 inquirer.prompt(internQuestions)
                     .then(internAnswers => {
                         const internData = new Intern(
-                            internAnswers.internName,
-                            internAnswers.internID,
-                            internAnswers.internEmail,
-                            internAnswers.internSchool,
-                            internAnswers.role
+                            this.internName,
+                            this.internID,
+                            this.internEmail,
+                            this.internSchool,
+                            this.role
                         );
+                        //render(internData);
                         memberType();
                     });
-                        break;
+                break;
 
         }
     }).catch(function (error) {
@@ -150,8 +140,10 @@ function memberType() {
 
 function init() {
     inquirer.prompt(managerQuestions)
-        .then(function (response) {
-
+        .then((response) => {
+            const managerData = response;
+            console.log("managerData")
+            console.log(managerData)
             switch (response.role) {
                 case 'Engineer':
                     inquirer.prompt(engineerQuestions)
@@ -160,9 +152,14 @@ function init() {
                                 engineerAnswers.engineerName,
                                 engineerAnswers.engineerID,
                                 engineerAnswers.engineerEmail,
-                                engineerAnswers.engineerGithub,
-                                engineerAnswers.role
+                                engineerAnswers.engineerGithub
+
                             );
+                            console.log("engineerData")
+                            console.log(engineerData)
+                            console.log("engineerAnsers")
+                            console.log(engineerAnswers)
+                            render(engineerData);
                             memberType();
                         });
                     break;
@@ -176,6 +173,8 @@ function init() {
                                 internAnswers.internSchool,
                                 internAnswers.role
                             );
+                            //console.log(internData)
+                            //render(internData);
                             memberType();
                         });
                     break;
