@@ -10,7 +10,9 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 const { choices } = require("yargs");
+const { resolveSoa } = require("dns");
 
+const objectArray = []
 
 // Write code to use inquirer to gather information about the development team members,
 
@@ -106,13 +108,14 @@ function memberType() {
                 inquirer.prompt(engineerQuestions)
                     .then(engineerAnswers => {
                         const engineerData = new Engineer(
-                            this.engineerName,
-                            this.engineerID,
-                            this.engineerEmail,
-                            this.engineerGithub,
-                            this.role
+                            engineerAnswers.engineerName,
+                            engineerAnswers.engineerID,
+                            engineerAnswers.engineerEmail,
+                            engineerAnswers.engineerGithub,
+                            engineerAnswers.role
                         );
-                        //render(engineerData);
+                        objectArray.push(engineerData);
+                        console.log(objectArray);                       
                         memberType();
                     });
                 break;
@@ -120,15 +123,18 @@ function memberType() {
                 inquirer.prompt(internQuestions)
                     .then(internAnswers => {
                         const internData = new Intern(
-                            this.internName,
-                            this.internID,
-                            this.internEmail,
-                            this.internSchool,
-                            this.role
+                            internAnswers.internName,
+                            internAnswers.internID,
+                            internAnswers.internEmail,
+                            internAnswers.internSchool,
+                            internAnswers.role
                         );
-                        //render(internData);
+                        objectArray.push(internData);
+                        console.log(objectArray);
                         memberType();
                     });
+                break;
+            case 'None' :
                 break;
 
         }
@@ -141,7 +147,13 @@ function memberType() {
 function init() {
     inquirer.prompt(managerQuestions)
         .then((response) => {
-            const managerData = response;
+            const managerData = new Manager(
+                response.managerName,
+                response.managerID,
+                response.managerEmail,
+                response.managerNumber
+            )
+            objectArray.push(managerData)            
             console.log("managerData")
             console.log(managerData)
             switch (response.role) {
@@ -155,11 +167,8 @@ function init() {
                                 engineerAnswers.engineerGithub
 
                             );
-                            console.log("engineerData")
-                            console.log(engineerData)
-                            console.log("engineerAnsers")
-                            console.log(engineerAnswers)
-                            render(engineerData);
+                            objectArray.push(engineerData)
+                            console.log(objectArray);
                             memberType();
                         });
                     break;
@@ -173,14 +182,14 @@ function init() {
                                 internAnswers.internSchool,
                                 internAnswers.role
                             );
-                            //console.log(internData)
-                            //render(internData);
+                            objectArray.push(internData);
+                            console.log(objectArray);
                             memberType();
                         });
                     break;
 
                 case 'None':
-                    render(response);
+                  
                     break;
             }
         })
