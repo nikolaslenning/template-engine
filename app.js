@@ -13,30 +13,32 @@ const { choices } = require("yargs");
 
 
 // Write code to use inquirer to gather information about the development team members,
+
+
 const managerQuestions = [
     {
-        type: 'input', 
+        type: 'input',
         name: 'managerName',
         message: 'What is your manager`s Name?'
     },
     {
-        type: 'input', 
+        type: 'input',
         name: 'managerID',
         message: 'What is your manager`s id?'
     },
     {
-        type: 'input', 
+        type: 'input',
         name: 'managerEmail',
         message: 'What is your manager`s email?'
     },
     {
-        type: 'input', 
+        type: 'input',
         name: 'managerNumber',
         message: 'What is your manager`s office number?'
     },
     {
-        type: 'list', 
-        name: 'teamMember',
+        type: 'list',
+        name: 'role',
         message: 'What type of team member would you like to add?',
         choices: ['Engineer', 'Intern', 'None']
     }
@@ -44,96 +46,151 @@ const managerQuestions = [
 
 const engineerQuestions = [
     {
-        type: 'input', 
+        type: 'input',
         name: 'engineerName',
         message: 'What is your engineer`s Name?'
     },
     {
-        type: 'input', 
+        type: 'input',
         name: 'engineerID',
         message: 'What is your engineer`s id?'
     },
     {
-        type: 'input', 
+        type: 'input',
         name: 'engineerEmail',
         message: 'What is your engineer`s email?'
     },
     {
-        type: 'input', 
+        type: 'input',
         name: 'engineerGithub',
         message: 'What is your engineer`s github username?'
     },
-    {
-        type: 'list', 
-        name: 'teamMember',
-        message: 'What type of team member would you like to add?',
-        choices: ['Engineer', 'Intern', 'None']
-    }
+    // {
+    //     type: 'list', 
+    //     name: 'role',
+    //     message: 'What type of team member would you like to add?',
+    //     choices: ['Engineer', 'Intern', 'None']
+    // }
 ];
 
 const internQuestions = [
     {
-        type: 'input', 
+        type: 'input',
         name: 'internName',
         message: 'What is your intern`s Name?'
     },
     {
-        type: 'input', 
+        type: 'input',
         name: 'internID',
         message: 'What is your intern`s id?'
     },
     {
-        type: 'input', 
+        type: 'input',
         name: 'internEmail',
         message: 'What is your intern`s email?'
     },
     {
-        type: 'input', 
+        type: 'input',
         name: 'internSchool',
         message: 'What is your intern`s school?'
     },
-    {
-        type: 'list', 
-        name: 'teamMember',
-        message: 'What type of team member would you like to add?',
-        choices: ['Engineer', 'Intern', 'None']
-    }
+    // {
+    //     type: 'list', 
+    //     name: 'role',
+    //     message: 'What type of team member would you like to add?',
+    //     choices: ['Engineer', 'Intern', 'None']
+    // }
 ];
 
-const memberType = [
+const memberTypeQ = [
     {
-        type: 'list', 
-        name: 'teamMember',
+        type: 'list',
+        name: 'role',
         message: 'What type of team member would you like to add?',
         choices: ['Engineer', 'Intern', 'None']
     }
 ]
 
-
-
- async function init() {
-    inquirer.prompt(managerQuestions)
-    .then(function (response){
-        switch(response.teamMember) {
+function memberType() {
+    inquirer.prompt(memberTypeQ).then(answer => {
+        switch (answer.role) {
             case 'Engineer':
-                inquirer.prompt(engineerQuestions);                
+                inquirer.prompt(engineerQuestions)
+                    .then(engineerAnswers => {
+                        const engineerData = new Engineer(
+                            engineerAnswers.engineerName,
+                            engineerAnswers.engineerID,
+                            engineerAnswers.engineerEmail,
+                            engineerAnswers.engineerGithub,
+                            engineerAnswers.role
+                        );
+                        memberType();
+                    });
                 break;
             case 'Intern':
-                inquirer.prompt(internQuestions);
-                break;
-            case 'None':
-                render(response);
-                break;
-        }
-    })
-    .catch(function(error){
-        console.log(error);
-    }) 
-}
+                inquirer.prompt(internQuestions)
+                    .then(internAnswers => {
+                        const internData = new Intern(
+                            internAnswers.internName,
+                            internAnswers.internID,
+                            internAnswers.internEmail,
+                            internAnswers.internSchool,
+                            internAnswers.role
+                        );
+                        memberType();
+                    });
+                        break;
 
-// function nextMember() {
-//     inquirer
-// }
+        }
+    }).catch(function (error) {
+        console.log(error);
+    });
+};
+
+
+function init() {
+    inquirer.prompt(managerQuestions)
+        .then(function (response) {
+
+            switch (response.role) {
+                case 'Engineer':
+                    inquirer.prompt(engineerQuestions)
+                        .then(engineerAnswers => {
+                            const engineerData = new Engineer(
+                                engineerAnswers.engineerName,
+                                engineerAnswers.engineerID,
+                                engineerAnswers.engineerEmail,
+                                engineerAnswers.engineerGithub,
+                                engineerAnswers.role
+                            );
+                            memberType();
+                        });
+                    break;
+                case 'Intern':
+                    inquirer.prompt(internQuestions)
+                        .then(internAnswers => {
+                            const internData = new Intern(
+                                internAnswers.internName,
+                                internAnswers.internID,
+                                internAnswers.internEmail,
+                                internAnswers.internSchool,
+                                internAnswers.role
+                            );
+                            memberType();
+                        });
+                    break;
+
+                case 'None':
+                    render(response);
+                    break;
+            }
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+};
+
+
 
 init();
 
