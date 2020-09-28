@@ -16,6 +16,11 @@ const { choices } = require("yargs");
 const managerQuestions = [
     {
         type: 'input', 
+        name: 'managerName',
+        message: 'What is your manager`s Name?'
+    },
+    {
+        type: 'input', 
         name: 'managerID',
         message: 'What is your manager`s id?'
     },
@@ -35,9 +40,14 @@ const managerQuestions = [
         message: 'What type of team member would you like to add?',
         choices: ['Engineer', 'Intern', 'None']
     }
-]
+];
 
 const engineerQuestions = [
+    {
+        type: 'input', 
+        name: 'engineerName',
+        message: 'What is your engineer`s Name?'
+    },
     {
         type: 'input', 
         name: 'engineerID',
@@ -59,9 +69,14 @@ const engineerQuestions = [
         message: 'What type of team member would you like to add?',
         choices: ['Engineer', 'Intern', 'None']
     }
-]
+];
 
 const internQuestions = [
+    {
+        type: 'input', 
+        name: 'internName',
+        message: 'What is your intern`s Name?'
+    },
     {
         type: 'input', 
         name: 'internID',
@@ -83,8 +98,44 @@ const internQuestions = [
         message: 'What type of team member would you like to add?',
         choices: ['Engineer', 'Intern', 'None']
     }
+];
+
+const memberType = [
+    {
+        type: 'list', 
+        name: 'teamMember',
+        message: 'What type of team member would you like to add?',
+        choices: ['Engineer', 'Intern', 'None']
+    }
 ]
 
+
+
+ async function init() {
+    inquirer.prompt(managerQuestions)
+    .then(function (response){
+        switch(response.teamMember) {
+            case 'Engineer':
+                inquirer.prompt(engineerQuestions);                
+                break;
+            case 'Intern':
+                inquirer.prompt(internQuestions);
+                break;
+            case 'None':
+                render(response);
+                break;
+        }
+    })
+    .catch(function(error){
+        console.log(error);
+    }) 
+}
+
+// function nextMember() {
+//     inquirer
+// }
+
+init();
 
 // and to create objects for each team member (using the correct classes as blueprints!)
 
