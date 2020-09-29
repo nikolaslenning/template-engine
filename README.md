@@ -31,7 +31,7 @@ Screenshot demostrating the `team.html` generated from the information provided 
 
 [Jest](https://jestjs.io/) was used for running the provided tests. 
 
-A live link to my [Template Engine](https://nikolaslenning.github.io/template-engine/) is hosted on Github pages.
+A link to my [Template Engine](https://github.com/nikolaslenning/template-engine) is hosted on Github pages.
 
 This application was authored by [Nikolas Lenning](https://github.com/nikolaslenning).
 
