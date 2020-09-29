@@ -134,7 +134,13 @@ function memberType() {
                         memberType();
                     });
                 break;
-            case 'None' :
+            case 'None':
+                fs.writeFile('./output/team.html', render(objectArray), function(error){
+                    if (error) {
+                        return console.log(error);
+                    } 
+                    console.log('Success!');
+                });
                 break;
 
         }
@@ -189,7 +195,12 @@ function init() {
                     break;
 
                 case 'None':
-                  
+                  fs.writeFile('./output/team.html', render(objectArray), function(error){
+                      if (error) {
+                          return console.log(error);
+                      } 
+                      console.log('Success!');
+                  });
                     break;
             }
         })
